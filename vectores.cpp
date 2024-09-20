@@ -19,8 +19,13 @@ void darTurno(vector<int>& list, int *turnos)
 
     } while (prioritario < 1 || prioritario > 2);
     if(prioritario == 1){
-        cout<<"ACTUALMENTE HAY: "<<list.size()<<"\n INDIQUE POR FAVOR UNA POSICION: ";
-        cin>>position;      
+        do{
+
+        cout<<"ACTUALMENTE HAY: "<<list.size()<<"POSICIONES"<<"\n INDIQUE POR FAVOR UNA POSICION: ";
+        cin>>position;
+        }while(position > list.size() || position < list.size());
+        list.insert(list.begin() + position, *turnos);
+        *turnos = nuevoTurno + 1;
     }else{
         list.push_back(*turnos);
         cout<<"SU CLAVE DE TURNO ES: "<<*turnos<<"\n";
