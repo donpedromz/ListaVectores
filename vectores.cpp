@@ -23,11 +23,28 @@ void darTurno(vector<int> &list, int *turnos)
     } while (prioritario < 1 || prioritario > 2);
     if (prioritario == 1)
     {
-        mostrarListado(list);
-        cout << "POR FAVOR INGRESE POSICION PRIORITARIA \n";
-        cin >> position;
-        list.insert(list.begin() + (position - 1), *turnos);
-        *turnos = nuevoTurno + 1;
+        if (list.size() != 0)
+        {
+
+            do
+            {
+                mostrarListado(list);
+                cout << "POR FAVOR INGRESE POSICION PRIORITARIA \n";
+                cin >> position;
+
+            } while (position > list.size());
+            list.insert(list.begin() + (position - 1), *turnos);
+            *turnos = nuevoTurno + 1;
+            cout<<"TURNO ASIGNADO CORRECTAMENTE \n";
+        }
+        else
+        {
+            cout << "SERÁ ATENDIDO EN EL PROXIMO TURNO! ";
+            list.push_back(*turnos);
+            cout << "SU CLAVE DE TURNO ES: " << *turnos << "\n";
+            *turnos = nuevoTurno += 1;
+            cout << "TURNO AGREGADO CORRECTAMENTE \n";
+        }
     }
     else
     {
@@ -36,25 +53,44 @@ void darTurno(vector<int> &list, int *turnos)
         *turnos = nuevoTurno += 1;
         cout << "TURNO AGREGADO CORRECTAMENTE \n";
     }
-    cout<<"LA LISTA DE TURNOS QUEDA DE LA SIGUIENTE MANERA: \n";
+    cout << "LA LISTA DE TURNOS QUEDA DE LA SIGUIENTE MANERA: \n";
     mostrarListado(list);
 }
 void cancelarTurno(vector<int> &list)
 {
-    mostrarListado(list);
     size_t position;
-    cout << "POR FAVOR ELIJA UNA POSICIÓN PARA CANCELAR TURNO \n";
-    cin >> position;
-    list.erase(list.begin() + (position - 1));
-    cout << "TURNO BORRADO!, LOS TURNOS QUEDARAN DE LA SIGUIENTE MANERA: \n";
-    mostrarListado(list);
+    if (list.size() != 0)
+    {
+        do
+        {
+            mostrarListado(list);
+            cout << "POR FAVOR ELIJA UNA POSICIÓN PARA CANCELAR TURNO \n";
+            cin >> position;
+
+        } while (position > list.size());
+        list.erase(list.begin() + (position - 1));
+        cout << "TURNO BORRADO!, LOS TURNOS QUEDARAN DE LA SIGUIENTE MANERA: \n";
+        mostrarListado(list);
+    }
+    else
+    {
+        cout << "LISTA DE TURNOS VACIA! \n";
+    }
 }
 void atenderPersona(vector<int> &list)
 {
-    mostrarListado(list);
-    list.erase(list.begin());
-    cout << "PERSONA ATENDIDA, LOS TURNOS QUEDARAN DE LA SIGUIENTE MANERA: \n";
-    mostrarListado(list);
+    if (list.size() != 0)
+    {
+
+        mostrarListado(list);
+        list.erase(list.begin());
+        cout << "PERSONA ATENDIDA, LOS TURNOS QUEDARAN DE LA SIGUIENTE MANERA: \n";
+        mostrarListado(list);
+    }
+    else
+    {
+        cout << "TODAS LAS PERSONAS SE HAN ATENDIDO! \n";
+    }
 }
 int main()
 {
@@ -89,6 +125,11 @@ int main()
             cout << "---MOSTRAR LISTADO TURNOS--- \n";
             mostrarListado(turnos);
             break;
+        case 5:
+            salidaSistema = true;
+            break;
+        default:
+            cout << "OPCION INCORRECTA \n";
         }
     } while (!salidaSistema);
 }
